@@ -25,21 +25,19 @@ describe('Inbox', () => {
     expect(inbox.options.address).toBeDefined();
   });
 
-  it('has a default message', async (done) => {
+  it('has a default message', async () => {
     const message = await inbox.methods
       .message() // tells web3 that we want to call message method with no parameters (creates a transaction object)
       .call(); // instructs web3 to send out the transaction object (this is done asynchronously)
                // arguments of call() would be who is paying for the transaction (where the tx is from), how much gas to use, and etc.
     expect(message).toBe(INIT_MESSAGE);
-    done();
   });
 
-  it('updates the message', async (done) => {
+  it('updates the message', async () => {
     const newMessage = 'Bye';
     const result = await inbox.methods.setMessage(newMessage).send({ from: accounts[0] });
     expect(result.transactionHash).toBeDefined();
     const message = await inbox.methods.message().call();
     expect(message).toBe(newMessage);
-    done();
   });
 });
